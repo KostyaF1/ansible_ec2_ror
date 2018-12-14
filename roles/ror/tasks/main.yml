@@ -1,0 +1,66 @@
+
+# Installing ROR
+
+- name: 'Download ruby-install'
+  become: no
+  get_url:
+    url: "{{ git_ruby_install }}"
+    dest: "{{ ruby_dir }}/{{ ruby_install }}.tar.gz"
+
+- name: Extract ruby-install tarball
+  become: no
+  unarchive:
+    src: "{{ ruby_dir }}/{{ ruby_install }}.tar.gz"
+    dest: "{{ ruby_dir }}"
+    creates: "{{ ruby_dir }}/{{ ruby_install }}"
+    remote_src: yes
+
+- name: Install ruby-install
+  make:
+    chdir: "{{ ruby_dir }}/{{ ruby_install }}"
+    target: install
+
+- name: Install Ruby
+  become_user: "{{ auth.user }}"
+  command: /usr/local/bin/ruby-install --no-install-deps ruby {{ ruby_version }}
+  args:
+    creates: "{{ home_dir }}/.rubies/ruby-{{ ruby_version }}"
+
+- name: Download chruby
+  become: no
+  get_url:
+    url: "{{ git_chruby }}"
+    dest: "{{ ruby_dir }}/{{ chruby }}.tar.gz"
+- name: Extract chruby tarball
+  become: no
+  unarchive:
+    src: "{{ ruby_dir }}/{{ chruby }}.tar.gz"
+    dest: "{{ ruby_dir }}"
+    creates: "{{ ruby_dir }}/{{ chruby }}"
+    remote_src: yes
+- name: Install chruby
+  make:
+    chdir: "{{ ruby_dir }}/{{ chruby }}"
+    target: install
+
+- name: Load chruby for deploy user
+  lineinfile:
+    path: "{{ home_dir }}/.bashrc"
+    regexp: 'chruby.sh$'
+    line: 'source /usr/local/share/chruby/chruby.sh'
+    insertbefore: BOF
+- name: Set ruby version for deploy user
+  lineinfile:
+    path: "{{ home_dir }}/.profile"
+    regexp: '^chruby'
+    line: 'chruby ruby-{{ ruby_version }}'
+
+- name: Install bundler
+  become_user: "{{ auth.user }}"
+  command: 'chruby-exec ruby-{{ ruby_version }} -- gem install bundler'
+  args:
+    creates: "{{ home_dir }}/.gem/ruby/{{ ruby_version }}/bin/bundle"
+
+- name: Install rails
+  become_user: "{{ auth.user }}"
+  command: 'chruby-exec ruby-{{ ruby_version }} -- gem install rails'

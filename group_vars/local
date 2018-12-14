@@ -1,0 +1,13 @@
+# Vars to EC2 group
+#
+
+ec2:
+  instance_type: t2.micro
+  region: eu-central-1
+  count: 1
+  security_group: intern-sg
+  vpc_subnet_id: subnet-0d76b6ca9d02a6d54
+  image: ami-de486035
+  keypair: id_rsa
+  assign_public_ip: yes
+  wait: true

@@ -1,0 +1,9 @@
+
+# Nginx lissen port
+nginx_port: 80
+
+# Name of current app
+app_name: blog
+
+# Home dir of current app
+home_dir: "/home/{{ auth.user }}"

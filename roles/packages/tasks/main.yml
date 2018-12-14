@@ -1,0 +1,50 @@
+---
+
+# Update packages and install all needed dependencies
+
+- name: Update local packages to the latest version
+  apt:
+    upgrade: dist
+
+
+
+# Adding user to remote server
+
+- name: 'Add deploy user'
+  user:
+    name: "{{ auth.user }}"
+    shell: /bin/bash
+
+
+# Add ssh key for user
+
+- name: Add SSH key to server for deploy user
+  authorized_key:
+    user: "{{ auth.user }}"
+    key: "{{ ssh_key }}"
+
+
+# All dependencies for ROR
+
+- name: 'apt | install dependencies'
+  apt:
+    pkg:
+    - 'git'
+    - 'nodejs'
+    - 'autoconf'
+    - 'bison'
+    - 'build-essential'
+    - 'libssl-dev'
+    - 'libyaml-dev'
+    - 'libreadline6-dev'
+    - 'zlib1g-dev'
+    - 'libncurses5-dev'
+    - 'libffi-dev'
+    - 'libgdbm3'
+    - 'libgdbm-dev'
+    - 'libcurl4-openssl-dev'
+    - 'libsqlite3-dev'
+    - 'nginx'
+    - 'libpq-dev'
+    - 'libmagickwand-dev'
+    - 'rubygems'

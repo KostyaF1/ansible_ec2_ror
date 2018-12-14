@@ -1,0 +1,27 @@
+---
+
+# Role ec2 launch EC2 instance.
+# For this operation ansible use localhost
+
+- hosts: local
+  connection: local
+  gather_facts: False
+  roles:
+    - ec2
+
+# host 'webservers' for managing EC2 instance
+# host name (ip address) dynamically adding to group 'webservers' after lunching EC2
+# var 'remote_user' stores in group_vars/webservers
+# roles 'packages' installs all needed dependences for ROR
+# role 'ror' installs Ruby and Rails
+# role 'nginx' installs Nginx server and make configurations
+
+- hosts: webservers
+  remote_user: "{{ remote_user }}"
+  gather_facts: no
+  become: true
+  roles:
+    - packages
+    - nginx
+    - ror
+

@@ -1,0 +1,20 @@
+# Installing Nginx server
+
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: latest
+
+# Copy Nginx server configs
+
+- name: copy Nginx config
+  template: src=nginx.j2 dest=/etc/nginx/sites-available/{{ app_name }}.conf
+  notify:
+  - restart nginx
+
+# Create simlink of Nginx server config file
+
+- name: create symlink Nginx config
+  file: src=/etc/nginx/sites-available/{{ app_name }}.conf dest=/etc/nginx/sites-enabled/{{ app_name }}.conf state=link
+  notify:
+  - restart nginx

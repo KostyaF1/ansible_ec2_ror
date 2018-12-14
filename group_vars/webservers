@@ -1,0 +1,8 @@
+
+# User name on remote server
+remote_user: ubuntu
+
+# auth group. Name of current user for remote Ubuntu
+auth:
+  user: ruby
+
