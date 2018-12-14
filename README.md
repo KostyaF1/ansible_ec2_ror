@@ -1,5 +1,5 @@
 In this Ansible project two hosts group are uses.
-Hosts group 'local' uses for launch an EC2 instance. It has 'ec2' role, 'host' file into group_vars contains all needed
+Hosts group 'local' uses for launch an EC2 instance. It has 'ec2' role, 'local' file into group_vars contains all needed
 vars.
 
 Host group 'webservers' uses to manage newly created EC2 instance. It has three roles: 'packages', 'ror', 'nginx'.
