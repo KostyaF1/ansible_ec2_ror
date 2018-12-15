@@ -1,9 +1,9 @@
-In this Ansible project two hosts group are uses.
-Hosts group 'local' uses for launch an EC2 instance. It has 'ec2' role, 'local' file into group_vars contains all needed
+In this Ansible project uses two hosts group.
+Hosts group 'local' launch an EC2 instance. It has 'ec2' role, 'local' file into group_vars contains all needed
 vars.
 
-Host group 'webservers' uses to manage newly created EC2 instance. It has three roles: 'packages', 'ror', 'nginx'.
-Role 'packages' need to update and install all needed dependencies for Ruby-on-Rails on OS.
+Host group 'webservers' manage newly created EC2 instance. It has three roles: 'packages', 'ror', 'nginx'.
+Role 'packages' need to update and install all needed dependencies for Ruby-on-Rails on Ubuntu 16.04 OS.
 Role 'ror' need to install Ruby and Rails.
 Role 'nginx' need to install and configure Nginx web server. It has template file for configure Nginx and handler file
 for restart Nginx server.
